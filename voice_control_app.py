@@ -11,7 +11,7 @@ client = mqtt.Client("ControlPorVozClient")
 client.connect(mqtt_broker, mqtt_port)
 
 # Interfaz de usuario
-st.title("Control por Voz")
+st.title("Control de LEDs por Voz")
 
 # Funcionalidad de control por voz
 def control_por_voz():
