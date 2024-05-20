@@ -8,4 +8,4 @@ pyaudio
 SpeechRecognition
 googletrans==4.0.0-rc1
 gtts
-pyaudio
+pyaudio==0.2.11
