@@ -13,8 +13,7 @@ from gtts import gTTS
 from googletrans import Translator
 
 
-st.title("Traductor por Voz")
-st.subheader("Juan Manuel Zapata Giraldo")
+st.title("Controlador de luces")
 
 
 image = Image.open('traductor.jpg')
@@ -22,7 +21,7 @@ image = Image.open('traductor.jpg')
 st.image(image)
 
 
-st.write("Toca el Botón y habla lo que quieres traducir")
+st.write("Toca el Botón y da la orden")
 
 stt_button = Button(label=" Inicio ", width=200)
 
