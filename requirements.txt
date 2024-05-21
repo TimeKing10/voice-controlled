@@ -1,8 +1,4 @@
-paho-mqtt==1.6.1
+googletrans==4.0.0-rc1
+gtts
 SpeechRecognition
-numpy
-streamlit
-opencv-python
-Pillow
-tensorflow
-PyAudio
+paho-mqtt
