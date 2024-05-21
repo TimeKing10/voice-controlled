@@ -24,3 +24,6 @@ if st.button('Encender'):
 if st.button('Apagar'):
     send_message("cmqtt_And", "OFF")
     st.success("El LED ha sido apagado.")
+
+client1.loop()  # Agregamos la llamada a client1.loop() en el bucle principal
+
