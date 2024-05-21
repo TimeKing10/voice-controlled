@@ -1,63 +1,50 @@
-import paho.mqtt.client as paho
-import time
+import os
+import paho.mqtt.client as mqtt
 import speech_recognition as sr
-import json
-import streamlit as st
+from gtts import gTTS
+from googletrans import Translator
 
-def on_publish(client, userdata, result):
-    print("El dato ha sido publicado\n")
-    pass
-
-def on_message(client, userdata, message):
-    st.write(f"Mensaje recibido: {str(message.payload.decode('utf-8'))}")
-
+# Configuración del cliente MQTT
 broker = "broker.mqttdashboard.com"
 port = 1883
-client1 = paho.Client("APP_VOICE")
-client1.on_message = on_message
-client1.on_publish = on_publish
-client1.connect(broker, port)
+topic = "IMIA"
 
-recognizer = sr.Recognizer()
-microphone = sr.Microphone()
+# Función para enviar comandos al ESP32 a través de MQTT
+def send_command(command):
+    client = mqtt.Client("PythonClient")
+    client.connect(broker, port)
+    client.publish(topic, command)
+    client.disconnect()
 
-def recognize_speech_from_mic(recognizer, microphone):
-    if not isinstance(recognizer, sr.Recognizer):
-        raise TypeError("`recognizer` debe ser una instancia de `Recognizer`")
-    if not isinstance(microphone, sr.Microphone):
-        raise TypeError("`microphone` debe ser una instancia de `Microphone`")
+# Función para reconocer voz
+def recognize_speech():
+    recognizer = sr.Recognizer()
+    microphone = sr.Microphone()
 
     with microphone as source:
-        recognizer.adjust_for_ambient_noise(source)
-        st.write("Di un comando:")
+        print("Escuchando...")
         audio = recognizer.listen(source)
 
-    response = {
-        "success": True,
-        "error": None,
-        "transcription": None
-    }
-
     try:
-        response["transcription"] = recognizer.recognize_google(audio, language="es-ES")
-    except sr.RequestError:
-        response["success"] = False
-        response["error"] = "API no disponible"
+        text = recognizer.recognize_google(audio, language="es-ES")
+        print("Texto reconocido: ", text)
+        return text
     except sr.UnknownValueError:
-        response["success"] = False
-        response["error"] = "No se entendió el audio"
+        print("No se pudo entender el audio")
+        return ""
+    except sr.RequestError as e:
+        print("Error al solicitar resultados; {0}".format(e))
+        return ""
 
-    return response
+# Función principal
+def main():
+    command = recognize_speech()
 
-st.title("Cerradura Inteligente Controlada por Voz")
+    if command:
+        if "prender luces" in command.lower():
+            send_command('{"gesto":"prender luces"}')
+        elif "apagar luces" in command.lower():
+            send_command('{"gesto":"apagar luces"}')
 
-if st.button("Escuchar comando de voz"):
-    command = recognize_speech_from_mic(recognizer, microphone)
-    if command["transcription"]:
-        st.write(f"Comando reconocido: {command['transcription']}")
-        if "prender luces" in command["transcription"].lower():
-            client1.publish("IMIA", json.dumps({"gesto": "prender luces"}))
-        elif "apagar luces" in command["transcription"].lower():
-            client1.publish("IMIA", json.dumps({"gesto": "apagar luces"}))
-    elif not command["success"]:
-        st.write("No se pudo obtener el comando")
+if __name__ == "__main__":
+    main()
