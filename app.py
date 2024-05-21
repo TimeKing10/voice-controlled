@@ -4,22 +4,23 @@ import json
 
 broker = "broker.mqttdashboard.com"
 port = 1883
-client1 = paho.Client("WokwiControl")
+client = paho.Client("StreamlitApp")
 
 def on_publish(client, userdata, result):
     print("El dato ha sido publicado\n")
 
-def send_message(topic, payload):
-    client1.connect(broker, port)
-    client1.on_publish = on_publish
-    message = json.dumps(payload)
-    ret = client1.publish(topic, message)
+def send_message(topic, gesture):
+    client.connect(broker, port)
+    client.on_publish = on_publish
+    message = json.dumps({"gesto": gesture})
+    ret = client.publish(topic, message)
 
-st.title("Control de Luz")
+st.title("Control de Dispositivo")
 
-if st.button('Encender Luz'):
-    send_message("cmqtt_And", {"gesto": "prender luces"})
+if st.button("Encender Luz"):
+    send_message("cmqtt_And", "prender luz")
+    st.success("La luz ha sido encendida.")
 
-if st.button('Apagar Luz'):
-    send_message("cmqtt_And", {"gesto": "apagar luces"})
-
+if st.button("Apagar Luz"):
+    send_message("cmqtt_And", "apagar luz")
+    st.success("La luz ha sido apagada.")
