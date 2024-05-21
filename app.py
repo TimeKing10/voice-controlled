@@ -2,7 +2,7 @@ import paho.mqtt.client as paho
 import streamlit as st
 import json
 
-broker = "broker.mqttdashboard.com"
+broker = "broker.emqx.io"
 port = 1883
 client1 = paho.Client("StreamlitApp")
 
