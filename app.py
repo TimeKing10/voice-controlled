@@ -18,7 +18,7 @@ def send_message(topic, payload):
 st.title("Control de Dispositivo")
 
 if st.button("Encender Dispositivo"):
-    send_message("cmqtt_And", {"gesto": "prender luces"}
+    send_message("cmqtt_And", {"gesto": "prender luces"})
 
 if st.button("Apagar Dispositivo"):
     send_message("cmqtt_And", {"gesto": "apagar luces"})
