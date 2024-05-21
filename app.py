@@ -5,9 +5,6 @@ import json
 broker="broker.mqttdashboard.com"
 port=1883
 client1= paho.Client("APP_CERR")
-client1.on_message = on_message
-client1.on_publish = on_publish
-client1.connect(broker,port)
 
 def on_publish(client, userdata, result):
     print("El dato ha sido publicado\n")
