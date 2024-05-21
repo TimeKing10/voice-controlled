@@ -5,3 +5,4 @@ streamlit
 opencv-python
 Pillow
 tensorflow
+PyAudio
