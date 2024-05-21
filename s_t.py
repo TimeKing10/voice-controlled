@@ -13,8 +13,8 @@ from gtts import gTTS
 from googletrans import Translator
 
 
-st.title("Interfaces Multimodales")
-st.subheader("TRADUCTOR")
+
+st.subheader("Apagar o encender luces")
 
 
 image = Image.open('traductor.jpg')
