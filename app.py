@@ -18,11 +18,11 @@ def send_message(topic, gesture):
 st.title("Control de Luces")
 
 if st.button('Encender'):
-    send_message("cmqtt_And", "ON")
+    send_message("gestos", "ON")
     st.success("El LED ha sido encendido.")
 
 if st.button('Apagar'):
-    send_message("cmqtt_And", "OFF")
+    send_message("gestos", "OFF")
     st.success("El LED ha sido apagado.")
 
 client1.loop()  # Agregamos la llamada a client1.loop() en el bucle principal
