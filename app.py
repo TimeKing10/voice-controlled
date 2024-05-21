@@ -15,7 +15,7 @@ def send_message(topic, payload):
     message = json.dumps(payload)
     ret = client1.publish(topic, message)
 
-st.title("Control de Dispositivo")
+st.title("Control de Luz")
 
 if st.button('Encender Luz'):
     send_message("cmqtt_And", {"gesto": "prender luces"})
@@ -23,8 +23,3 @@ if st.button('Encender Luz'):
 if st.button('Apagar Luz'):
     send_message("cmqtt_And", {"gesto": "apagar luces"})
 
-values = st.slider('Selecciona el rango de valores', 0.0, 100.0)
-st.write('Values:', values)
-
-if st.button('Enviar valor analógico'):
-    send_message("cmqtt_V", {"Analog": float(values)})
