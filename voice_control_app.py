@@ -2,13 +2,14 @@ import paho.mqtt.client as paho
 import time
 import speech_recognition as sr
 import json
+import streamlit as st
 
 def on_publish(client, userdata, result):
     print("El dato ha sido publicado\n")
     pass
 
 def on_message(client, userdata, message):
-    print(f"Mensaje recibido: {str(message.payload.decode('utf-8'))}")
+    st.write(f"Mensaje recibido: {str(message.payload.decode('utf-8'))}")
 
 broker = "broker.mqttdashboard.com"
 port = 1883
@@ -28,7 +29,7 @@ def recognize_speech_from_mic(recognizer, microphone):
 
     with microphone as source:
         recognizer.adjust_for_ambient_noise(source)
-        print("Di un comando:")
+        st.write("Di un comando:")
         audio = recognizer.listen(source)
 
     response = {
@@ -48,14 +49,15 @@ def recognize_speech_from_mic(recognizer, microphone):
 
     return response
 
-while True:
+st.title("Cerradura Inteligente Controlada por Voz")
+
+if st.button("Escuchar comando de voz"):
     command = recognize_speech_from_mic(recognizer, microphone)
     if command["transcription"]:
-        print(f"Comando reconocido: {command['transcription']}")
+        st.write(f"Comando reconocido: {command['transcription']}")
         if "prender luces" in command["transcription"].lower():
             client1.publish("IMIA", json.dumps({"gesto": "prender luces"}))
         elif "apagar luces" in command["transcription"].lower():
             client1.publish("IMIA", json.dumps({"gesto": "apagar luces"}))
     elif not command["success"]:
-        print("No se pudo obtener el comando")
-    time.sleep(2)
+        st.write("No se pudo obtener el comando")
