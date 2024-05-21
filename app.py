@@ -15,12 +15,12 @@ def send_message(topic, payload):
     message = json.dumps(payload)
     ret = client1.publish(topic, message)
 
-st.title("Control de Dispositivo")
+st.title("Control de Luces")
 
-if st.button('ON'):
-    send_message("cmqtt_And", {"Act1": "ON"})
-    st.success("El dispositivo ha sido encendido.")
+if st.button('Encender'):
+    send_message("cmqtt_And", {"gesto": "ON"})
+    st.success("El LED ha sido encendido.")
 
-if st.button('OFF'):
-    send_message("cmqtt_And", {"Act1": "OFF"})
-    st.success("El dispositivo ha sido apagado.")
+if st.button('Apagar'):
+    send_message("cmqtt_And", {"gesto": "OFF"})
+    st.success("El LED ha sido apagado.")
