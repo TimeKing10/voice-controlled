@@ -1,6 +1,7 @@
 import os
 import paho.mqtt.client as mqtt
 import speech_recognition as sr
+import pyaudio
 from gtts import gTTS
 from googletrans import Translator
 
